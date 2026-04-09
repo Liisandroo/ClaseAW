@@ -1,11 +1,11 @@
 {
-  "name": "clase-hoy",
+  "name": "clase-20260409",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "node index.mjs",
-    "leerApi" : "node leerApi.mjs",
+    "leerApi": "node leerApi.mjs",
     "escribirApi" : "node escribirApi.mjs"
   },
   "keywords": [],
