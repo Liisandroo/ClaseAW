@@ -1,0 +1,18 @@
+### --
+
+# GET - IES
+
+GET https://ies21.edu.ar/
+
+### GET - REST API
+GET https://api.escuelajs.co/api/v1/users
+
+### GET ---
+
+#GET localhost3000
+GET http://localhost:3000
+
+### POST ---
+
+#POST localhost3000
+POST http://localhost:3000/guardardatos
