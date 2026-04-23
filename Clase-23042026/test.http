@@ -1,0 +1,10 @@
+###
+
+POST http://localhost:3030/productos
+Content-Type: application/json
+
+{
+    "id": 3,
+    "nombre": "Gorra",
+    "precio": 1200
+}
