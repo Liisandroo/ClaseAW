@@ -1,5 +1,5 @@
 import express from 'express'
-import {obtenerProductos, obtenerProductosPorId, elimninarProducto, altaProducto} from './funciones.mjs'
+import {obtenerProductos, obtenerProductosPorId, elimninarProducto, altaProducto, modificarProducto} from './funciones.mjs'
 
 
 const PUERTO = 3030
@@ -16,8 +16,9 @@ app.get('/api/v1/productos', obtenerProductos)
 app.get('/api/v1/productos/:id',obtenerProductosPorId)
 
 //POST /api/v1/productos ---> damos de alta un registro
-app.get('/api/v1/productos/',altaProducto)
+app.post('/api/v1/productos',altaProducto)
 //PUT /api/v1/productos/:id ---> modificar un registro
+app.put('/api/v1/productos/:id',modificarProducto)
 
 //DELETE /api/v1/productos/:id -----> eliminar un registro
 app.delete('/api/v1/productos/:id', elimninarProducto )
