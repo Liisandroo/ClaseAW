@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "modelo": "Toyota Corolla",
+        "anio": 2022,
+        "km": 15000
+    },
+    {
+        "id": 2,
+        "modelo": "Honda Civic",
+        "anio": 2020,
+        "km": 45000
+    },
+    {
+        "id": 3,
+        "modelo": "Volkswagen Golf",
+        "anio": 2018,
+        "km": 82000
+    },
+    {
+        "id": 4,
+        "modelo": "Toyota Hilux",
+        "anio": 2021,
+        "km": 35000
+    }
+]
