@@ -1,7 +1,7 @@
 import express from 'express'
 import multer from 'multer'
 import { nanoid } from 'nanoid'
-import mime from 'mime-type'
+import mime from 'mime-types'
 //usar path
 
 const app = express()
@@ -17,7 +17,7 @@ const almacenamiento = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     // const extension = mime.extension(file.mimetype)
-    const nombreImagen = nanoid()
+    const nombreImagen = nanoid() + '.' + mime.extension(file.mimetype)
     cb(null, nombreImagen);
   },
 });
