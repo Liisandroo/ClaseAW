@@ -1,13 +1,25 @@
-import express from 'express'
-import autosRutas from './rutas/rutas.mjs'
-import logger from './middleware/middleware.mjs'
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
+import logger from './middleware/middleware.mjs';
+import autosRutas from './rutas/rutas.mjs';
+import { verificarToken } from './middleware/middleware.mjs';
 
-const PUERTO = 3030
+dotenv.config();
+
+const PUERTO = process.env.PORT 
 const app = express()
 
-app.use(express.json());
-
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
+app.use(cookieParser());
 app.use(logger);
+
+//Publico
+app.use('/login', express.static('./fronts/front-login'));
+//Privado
+app.use('/autos', verificarToken, express.static('./fronts/front-autos'));
+app.use('/auto-detalle', verificarToken, express.static('./fronts/front-detalles'));
 
 app.use('/', autosRutas);
 

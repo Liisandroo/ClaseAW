@@ -1,4 +1,8 @@
 import fs from 'fs'
+import { pool } from '../BD/conexion.bd.mjs';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
 
 // Esta función lee el archivo y lo convierte en algo que JS entienda
 const leerAutos = () => {
@@ -19,11 +23,11 @@ export function obtenerAutos(req, res) {
 export const obtenerPorId = (req, res) => {
     try {
         //le damos un nombre a la funcion
-        const autos = leerAutos(); 
+        const autos = leerAutos();
 
         //convertimos el id a numero
         const idBuscado = parseInt(req.params.id);
-        
+
         // Creamos la constante para que pueda buscar por id
         const auto = autos.find(a => a.id === idBuscado);
 
@@ -33,14 +37,14 @@ export const obtenerPorId = (req, res) => {
             res.status(404).json({ mensaje: "Auto No Encontrado" });
         }
     } catch (error) {
-        
+
         res.status(500).json("Error Al Buscar El Auto");
     }
 };
 
 export const buscarNuevitos = (req, res) => {
     const autos = leerAutos();
-    
+
     // Filtramos autos casi nuevos
     const nuevitos = autos.filter(a => a.km < 20000 && a.anio >= 2021);
 
@@ -51,4 +55,53 @@ export const buscarNuevitos = (req, res) => {
     });
 };
 
+export const autenticarUsuario = async (req, res) => {
+  const { usuario, pass } = req.body;
+
+  try {
+    // Buscar usuario
+    const resultado = await pool.query(
+      "SELECT * FROM usuarios WHERE username = $1",
+      [usuario]
+    );
+
+    if (resultado.rows.length === 0) {
+      return res.status(401).send("Usuario no encontrado");
+    }
+
+    const userDB = resultado.rows[0];
+
+    // Comparar contraseña con hash almacenado
+    const esValida = await bcrypt.compare(
+      pass.trim(),
+      userDB.password_hash
+    );
+
+    if (!esValida) {
+      return res.status(401).send("Contraseña incorrecta");
+    }
+
+    // Generar JWT
+    const token = jwt.sign(
+      {
+        id: userDB.id,
+        usuario: userDB.username,
+      },
+      process.env.FIRMA_JWT,
+      { expiresIn: "1h" }
+    );
+
+    // Guardar cookie
+    res.cookie("token_parcial", token, {
+      httpOnly: true,
+      maxAge: 3600000, // 1 hora
+    });
+
+    return res.redirect("/autos");
+
+  } catch (error) {
+    console.error("Error en login:", error);
+    return res.status(500).send("Error interno del servidor");
+  }
+};
 
