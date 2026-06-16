@@ -20,7 +20,7 @@ app.use('/login', express.static('./fronts/front-login'));
 //Privado
 app.use('/autos', verificarToken, express.static('./fronts/front-autos'));
 app.use('/auto-detalle', verificarToken, express.static('./fronts/front-detalles'));
-
+app.use('/nuevitos', verificarToken, express.static('./fronts/front-nuevitos'));
 app.use('/', autosRutas);
 
 

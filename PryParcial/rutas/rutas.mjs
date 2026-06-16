@@ -3,6 +3,8 @@ import express from 'express';
 import { buscarNuevitos, obtenerAutos, obtenerPorId, autenticarUsuario } from '../controlador/controlador.auto.mjs';
 import { verificarToken } from '../middleware/middleware.mjs';
 
+
+//Se utilizó Express Router para agrupar y modularizar las rutas de la aplicación. Esto para que quede todo mas organizado
 const router = express.Router();
 
 router.get('/api/v1/autos', obtenerAutos);             // Endpoint REST 1

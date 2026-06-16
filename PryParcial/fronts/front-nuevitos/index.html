@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Autos Seminuevos</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#f5f6fa;
+    padding:20px;
+}
+
+.tarjeta{
+    background:white;
+    padding:15px;
+    margin-top:10px;
+    border-radius:8px;
+    box-shadow:0 2px 5px rgba(0,0,0,.1);
+}
+
+.btn-volver{
+    display:inline-block;
+    margin-bottom:20px;
+    padding:10px 15px;
+    background:#3498db;
+    color:white;
+    text-decoration:none;
+    border-radius:5px;
+}
+
+</style>
+
+</head>
+<body>
+
+<a href="/autos" class="btn-volver">
+    ← Volver al catálogo
+</a>
+
+<h1>Procedimiento: Autos Seminuevos</h1>
+
+<p>
+Este procedimiento busca todos los vehículos
+con menos de 20.000 km y fabricados desde 2021.
+</p>
+
+<div id="resultado">
+    Cargando...
+</div>
+
+<script>
+
+async function cargarProcedimiento(){
+
+    try{
+
+        const respuesta =
+            await fetch('/api/v1/nuevitos');
+
+        const datos =
+            await respuesta.json();
+
+        let html = `
+            <h2>
+                Procedimiento ejecutado correctamente
+            </h2>
+
+            <p>
+                Cantidad encontrada:
+                ${datos.cantidad_encontrada}
+            </p>
+        `;
+
+        datos.items.forEach(auto => {
+
+            html += `
+                <div class="tarjeta">
+
+                    <h3>${auto.modelo}</h3>
+
+                    <p>
+                        Año: ${auto.anio}
+                    </p>
+
+                    <p>
+                        Km: ${auto.km}
+                    </p>
+
+                </div>
+            `;
+
+        });
+
+        document.getElementById(
+            'resultado'
+        ).innerHTML = html;
+
+    }
+    catch(error){
+
+        document.getElementById(
+            'resultado'
+        ).innerHTML = `
+            <h2>
+                Error al ejecutar procedimiento
+            </h2>
+        `;
+
+    }
+
+}
+
+cargarProcedimiento();
+
+</script>
+
+</body>
+</html>
